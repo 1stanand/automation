@@ -89,5 +89,6 @@ mvn clean test
 
 ## 👤 Author
 **Anand**  
-Senior Automation / SDET  
-(Add LinkedIn & GitHub links here)
+Senior Automation Test Engineer / SDET II
+
+LinkedIn : www.linkedin.com/in/1stanand
