@@ -31,8 +31,10 @@ public class ActionUtils {
         }
         String testName = Reporter.getCurrentTestResult().getMethod().getMethodName();
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
+        String hourMinute = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH_mm"));
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH_mm_ss_SSS"));
-        File screenshotDir = new File(System.getProperty("user.dir") + "/screenshots/" + date + "/" + testName + "/");
+        File screenshotDir = new File(
+                System.getProperty("user.dir") + "/screenshots/" + date + "/" + testName + "/" + hourMinute + "/");
         String screenshotName = "step_" + time + ".png";
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         File screenshot = new File(screenshotDir, screenshotName);
