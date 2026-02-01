@@ -6,5 +6,9 @@
   "invalidUser": {
     "username": "Admin",
     "password": "wrongPassword"
+  },
+  "invalidUsername": {
+    "username": "wrongUsername",
+    "password": "admin123"
   }
 }
