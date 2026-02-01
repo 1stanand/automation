@@ -4,8 +4,8 @@ import core.base.BasePage;
 import org.openqa.selenium.By;
 
 public class DashBoardPage extends BasePage {
-
-    private final By admin = By.cssSelector("a[class='oxd-main-menu-item']");
+    private final By dashBoard_Heading = By.xpath("//h6[contains(normalize-space(), dashboard)]");
+    private final By adminButton = By.xpath("//a[contains(normalize-space(),'Admin')]");
     private final By assignLeaveButton = By.xpath("//button[@title='Assign Leave']");
     private final By leaveListButton = By.xpath("//button[@title='Leave List']");
     private final By timeSheetButton = By.xpath("//button[@title='Timesheets']");
@@ -15,17 +15,30 @@ public class DashBoardPage extends BasePage {
 
     @Override
     public boolean isPageLoaded() {
-        return wait.isVisible(admin);
+        return wait.isVisible(dashBoard_Heading);
     }
 
-    public void verifyQuickLaunchMenu(){
+    public boolean areQuickLaunchButtonsVisible() {
         waitForPage();
         wait.waitForVisibility(assignLeaveButton);
-        action.elementShouldBeVisible(assignLeaveButton);
-        action.elementShouldBeVisible(leaveListButton);
-        action.elementShouldBeVisible(timeSheetButton);
-        action.elementShouldBeVisible(applyLeaveButton);
-        action.elementShouldBeVisible(myLeaveButton);
-        action.elementShouldBeVisible(myTimeSheetButton);
+        return action.elementShouldBeVisible(assignLeaveButton) &&
+                action.elementShouldBeVisible(leaveListButton) &&
+                action.elementShouldBeVisible(timeSheetButton) &&
+                action.elementShouldBeVisible(applyLeaveButton) &&
+                action.elementShouldBeVisible(myLeaveButton) &&
+                action.elementShouldBeVisible(myTimeSheetButton);
     }
+
+    public LeavePage clickMyLeaveButton() {
+        wait.waitForClickability(myLeaveButton);
+        action.clickElement(myLeaveButton);
+        return new LeavePage();
+    }
+
+    public AdminPage clickAdminButton() {
+        wait.waitForClickability(adminButton);
+        action.clickElement(adminButton);
+        return new AdminPage();
+    }
+
 }

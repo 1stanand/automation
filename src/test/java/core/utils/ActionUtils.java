@@ -2,8 +2,10 @@ package core.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -19,10 +21,12 @@ import core.config.ConfigReader;
 public class ActionUtils {
     private final WebDriver driver;
     private final WaitUtils wait;
+    private final JavascriptExecutor js;
 
     public ActionUtils(WebDriver webDriver) {
         driver = webDriver;
         wait = new WaitUtils(webDriver);
+        js = (JavascriptExecutor) driver;
     }
 
     public static void captureScreenshot(WebDriver driver) {
@@ -67,7 +71,7 @@ public class ActionUtils {
 
     public void javaScriptClick(By locator) {
         wait.waitForClickability(locator);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", locator);
+        js.executeScript("arguments[0].click();", locator);
         captureScreenshot(driver);
     }
 
@@ -85,4 +89,43 @@ public class ActionUtils {
 
     }
 
+    public void scrollElementIntoView(By locator) {
+        wait.waitForClickability(locator);
+        WebElement element = find(locator);
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        captureScreenshot(driver);
+    }
+
+    public void selectFromCustomDropdown(By locator, String text) {
+        wait.waitForClickability(locator);
+        clickElement(locator);
+        captureScreenshot(driver);
+        By optionToSelect = By.xpath(
+                "//div[@role='option']//span[normalize-space()='" + text + "']");
+
+        wait.waitForClickability(optionToSelect);
+        clickElement(optionToSelect);
+        captureScreenshot(driver);
+    }
+
+    public void selectFromAutComplete(By locator, String text) {
+        wait.waitForClickability(locator);
+        inputText(locator, text);
+        By suggestion = By.xpath(
+                "//div[contains(@class,'oxd-autocomplete-dropdown')]//span[contains(normalize-space(),'" + text.trim()
+                        + "')]");
+        wait.waitForClickability(suggestion);
+        clickElement(suggestion);
+        captureScreenshot(driver);
+    }
+
+    public String generateRandomString(int length) {
+        final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new SecureRandom();
+        StringBuilder builder = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            builder.append(ALPHANUMERIC.charAt(random.nextInt(ALPHANUMERIC.length())));
+        }
+        return builder.toString();
+    }
 }
