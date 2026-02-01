@@ -21,7 +21,7 @@ public class AdminPage extends BasePage {
     private final By CONFIRM_PASSWORD_INPUT = By.xpath(
             "//label[normalize-space()='Confirm Password']/ancestor::div[contains(@class,'oxd-input-group')]//input[@type='password']");
 
-    private final By SAVE_BUTTON = By.xpath("//button[@type='submit' and .//span[normalize-space()='Save']]");
+    private final By SAVE_BUTTON = By.xpath("//button[@type='submit']");
     private final By SUCCESS_MESSAGE = By.xpath("//div[@id='oxd-toaster_1']//p[text()='Successfully Saved']");
 
     @Override
@@ -45,15 +45,9 @@ public class AdminPage extends BasePage {
         action.selectFromCustomDropdown(ROLE_DROPDOWN, role);
         action.selectFromCustomDropdown(STATUS_DD, status);
         action.selectFromAutComplete(NAME_INPUT, name);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         action.inputText(USERNAME_INPUT, usernameToInput);
         action.inputText(PASSWORD_INPUT, password);
         action.inputText(CONFIRM_PASSWORD_INPUT, password);
-        action.scrollElementIntoView(SAVE_BUTTON);
         action.clickElement(SAVE_BUTTON);
     }
 
