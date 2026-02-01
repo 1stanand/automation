@@ -58,6 +58,7 @@ public class ActionUtils {
 
     public void clickElement(By locator) {
         wait.waitForClickability(locator);
+        scrollElementIntoView(locator);
         find(locator).click();
         captureScreenshot(driver);
     }
@@ -92,7 +93,7 @@ public class ActionUtils {
     public void scrollElementIntoView(By locator) {
         wait.waitForClickability(locator);
         WebElement element = find(locator);
-        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", element);
         captureScreenshot(driver);
     }
 
