@@ -15,6 +15,13 @@ This project focuses on **clean architecture, separation of concerns, and long-t
 
 ---
 
+## ✨ Features
+- **User Management:** Create, and manage users through the admin panel.
+- **Dashboard Widgets:** Verify the visibility and functionality of dashboard widgets.
+- **Leave Management:** Navigate and verify leave management sections.
+
+---
+
 ## 📁 Project Structure
 
 ```text
@@ -29,44 +36,44 @@ src
     │   │   ├── driver      # WebDriver lifecycle handling
     │   │   └── utils       # Reusable utilities (waits, actions, etc.)
     │   ├── pages           # Page Objects
+    │   │   └── dashboard   # Dashboard-related page objects
     │   └── tests           # Test classes
+    │       └── dashboardTests # Dashboard-related test classes
     └── resources
+        ├── config.properties # Environment configuration
+        ├── testng.xml      # TestNG suite configuration
         └── testdata        # JSON-based test data
 ```
 
 ---
 
 ## 🧩 Key Design Principles
-- Page Object Model for clean separation
-- No test logic inside page classes
-- Configuration-driven execution
-- Reusable utility helpers
-- Minimal external dependencies to reduce flakiness
+- **Page Object Model:** Each page in the application has a corresponding page object.
+- **Page Navigation:** Page objects are responsible for navigation and return other page objects.
+- **Separation of Concerns:** Test logic is kept separate from page objects and utility classes.
+- **Configuration-Driven:** Execution is controlled through a central configuration file.
+- **Reusable Utilities:** Common actions and waits are encapsulated in utility classes.
+- **Data-Driven:** Test data is externalized in JSON files, separating data from test logic.
 
 ---
 
 ## ⚙️ Configuration
-Application configuration is managed via a properties file, including:
+Application configuration is managed via `config.properties`, including:
 - Application URL
 - Timeouts
-- Execution flags (e.g. screenshots)
-
-Environment configuration is intentionally kept separate from **test data**.
+- Screenshot settings
 
 ---
 
 ## 🧪 Test Data Strategy
-- JSON files used for defining test scenarios
-- Deterministic and repeatable execution
-- Database or API usage intended only for test setup or verification, not for driving UI scenarios
+- JSON files are used to define test data for different scenarios.
+- This approach ensures that tests are deterministic and repeatable.
 
 ---
 
 ## 📸 Screenshots
-- Automatically captured based on configuration
-- Stored locally
-- Excluded from version control
-- CI-friendly by design
+- Screenshots are automatically captured for failed tests and key actions.
+- They are stored locally and excluded from version control.
 
 ---
 
@@ -79,11 +86,10 @@ mvn clean test
 ---
 
 ## 🔮 Planned Enhancements
-- JSON utility enhancements
-- Parallel execution support
-- Reporting integration
-- CI/CD pipeline integration
-- Environment-based execution profiles
+- **Parallel Execution:** Implement parallel test execution to reduce run time.
+- **Reporting:** Integrate with a reporting tool like Allure or ExtentReports.
+- **CI/CD Integration:** Set up a continuous integration and deployment pipeline.
+- **Cross-Browser Testing:** Add support for running tests on different browsers.
 
 ---
 
