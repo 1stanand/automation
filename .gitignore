@@ -32,7 +32,7 @@ failsafe-reports/
 # VS Code
 # ======================
 .vscode/
-
+*.todo
 # ======================
 # Eclipse / NetBeans
 # ======================
