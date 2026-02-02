@@ -3,6 +3,8 @@ package pages.dashboard;
 import org.openqa.selenium.By;
 
 import core.base.BasePage;
+import core.context.ContextManager;
+import core.context.TestContext;
 import core.utils.JsonContext;
 
 public class AdminPage extends BasePage {
@@ -34,13 +36,16 @@ public class AdminPage extends BasePage {
     }
 
     public void addUser(String userKey) {
-        JsonContext.use("addUsers.json");
-        String role = JsonContext.get(userKey + ".role");
-        String name = JsonContext.get(userKey + ".name");
-        String status = JsonContext.get(userKey + ".status");
-        String username = JsonContext.get(userKey + ".username");
-        String password = JsonContext.get(userKey + ".password");
+        waitForPage();
+        JsonContext.use("addUsers.json", userKey);
+        String role = JsonContext.get("role");
+        String name = JsonContext.get("name");
+        String status = JsonContext.get("status");
+        String username = JsonContext.get("username");
+        String password = JsonContext.get("password");
         String usernameToInput = action.generateRandomString(5) + username;
+        TestContext ctx = ContextManager.get();
+        ctx.put("username", usernameToInput);
         action.clickElement(ADD_USER_BUTTON);
         action.selectFromCustomDropdown(ROLE_DROPDOWN, role);
         action.selectFromCustomDropdown(STATUS_DD, status);
@@ -49,6 +54,15 @@ public class AdminPage extends BasePage {
         action.inputText(PASSWORD_INPUT, password);
         action.inputText(CONFIRM_PASSWORD_INPUT, password);
         action.clickElement(SAVE_BUTTON);
+    }
+
+    public boolean isUserRowDisplayed(String userKey) {
+        waitForPage();
+        TestContext ctx = ContextManager.get();
+        ctx.get("username");
+        By tableEntry = By
+                .xpath("//div[@class='orangehrm-container']//div[contains(text(),'" + ctx.get("username") + "')]");
+        return action.elementShouldBeVisible(tableEntry);
     }
 
 }
