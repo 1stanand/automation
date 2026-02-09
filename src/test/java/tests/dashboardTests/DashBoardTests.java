@@ -5,6 +5,7 @@ import core.utils.JsonContext;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
+import pages.PIMPage;
 import pages.dashboard.AdminPage;
 import pages.dashboard.DashBoardPage;
 import pages.dashboard.LeavePage;
@@ -50,5 +51,15 @@ public class DashBoardTests extends BaseTest {
         AdminPage admin = dash.clickAdminButton();
         admin.addUser("user_1");
         Assert.assertTrue(admin.isUserAddedSuccessfully(), "User was not added successfully.");
+        Assert.assertTrue(admin.isUserRowDisplayed(), "User row was not added successfully.");
+    }
+
+    @Test
+    public void addEmployee() {
+        loginAsValidUser();
+        PIMPage pim = new PIMPage();
+        pim.addUser("PIM.employee_1");
+        Assert.assertTrue(pim.isEmployeeAddedSuccessfully(), "Employee was not added successfully.");
+        Assert.assertTrue(pim.areEmployeeDetailsDisplayed(), "Employee details were not displayed correctly.");
     }
 }

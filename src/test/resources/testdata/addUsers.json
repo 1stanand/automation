@@ -5,5 +5,13 @@
     "status": "Enabled",
     "username": "anand123",
     "password": "anand123"
+  },
+  "PIM": {
+    "employee_1": {
+      "firstName": "Amit",
+      "middleName": "Kumar",
+      "lastName": "Singh",
+      "image": "employee_1.jpg"
+    }
   }
 }

@@ -1,14 +1,18 @@
 {
   "validUser": {
-    "username": "Admin",
-    "password": "admin123"
+    "admin": {
+      "username": "Admin",
+      "password": "admin123"
+    }
   },
   "invalidUser": {
-    "username": "Admin",
-    "password": "wrongPassword"
-  },
-  "invalidUsername": {
-    "username": "wrongUsername",
-    "password": "admin123"
+    "scene_1": {
+      "username": "Admin",
+      "password": "wrongPassword"
+    },
+    "scene_2": {
+      "username": "wrongUsername",
+      "password": "admin123"
+    }
   }
 }

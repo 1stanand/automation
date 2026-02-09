@@ -56,12 +56,13 @@ public class AdminPage extends BasePage {
         action.clickElement(SAVE_BUTTON);
     }
 
-    public boolean isUserRowDisplayed(String userKey) {
+    public boolean isUserRowDisplayed() {
         waitForPage();
         TestContext ctx = ContextManager.get();
         ctx.get("username");
         By tableEntry = By
                 .xpath("//div[@class='orangehrm-container']//div[contains(text(),'" + ctx.get("username") + "')]");
+        wait.waitForVisibility(tableEntry);
         return action.elementShouldBeVisible(tableEntry);
     }
 

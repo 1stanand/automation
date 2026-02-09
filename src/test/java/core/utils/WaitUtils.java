@@ -7,12 +7,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.function.BooleanSupplier;
 
+import core.config.ConfigReader;
+
 public class WaitUtils {
     private final WebDriverWait wait;
+    private final WebDriverWait visibilityWait;
     private final WebDriver driver;
 
     public WaitUtils(WebDriver driver) {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        int timeoutSeconds = ConfigReader.getConfigAsInt("timeout");
+        if (timeoutSeconds <= 0) {
+            timeoutSeconds = 30;
+        }
+        int isVisibleWaitSeconds = ConfigReader.getConfigAsInt("isVisibleWait");
+        if (isVisibleWaitSeconds <= 0) {
+            isVisibleWaitSeconds = timeoutSeconds;
+        }
+        isVisibleWaitSeconds = Math.max(1, isVisibleWaitSeconds);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+        visibilityWait = new WebDriverWait(driver, Duration.ofSeconds(isVisibleWaitSeconds));
         this.driver = driver;
     }
 
@@ -27,9 +40,12 @@ public class WaitUtils {
     }
 
     public void waitForPageIdle() {
-        wait.until(d -> (Boolean) ((JavascriptExecutor) d).executeScript(
-                "return window.getAllAngularTestabilities && " +
-                        "window.getAllAngularTestabilities().every(t => t.isStable());"));
+        wait.until(d -> {
+            Object result = ((JavascriptExecutor) d).executeScript(
+                    "return window.getAllAngularTestabilities ? " +
+                            "window.getAllAngularTestabilities().every(t => t.isStable()) : true;");
+            return Boolean.TRUE.equals(result);
+        });
         ActionUtils.captureScreenshot(driver);
 
     }
@@ -45,7 +61,19 @@ public class WaitUtils {
 
     public boolean isVisible(By locator) {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(5))
+            visibilityWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        } finally {
+            ActionUtils.captureScreenshot(driver);
+        }
+    }
+
+    public boolean isVisible(By locator, int seconds) {
+        int timeoutSeconds = Math.max(1, seconds);
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
             return true;
         } catch (TimeoutException e) {

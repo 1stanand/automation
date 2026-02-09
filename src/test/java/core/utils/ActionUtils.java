@@ -52,7 +52,7 @@ public class ActionUtils {
         }
     }
 
-    private WebElement find(By locator) {
+    public WebElement find(By locator) {
         return driver.findElement(locator);
     }
 
@@ -65,6 +65,7 @@ public class ActionUtils {
 
     public void inputText(By locator, String text) {
         wait.waitForClickability(locator);
+        scrollElementIntoView(locator);
         find(locator).clear();
         find(locator).sendKeys(text);
         captureScreenshot(driver);
@@ -72,7 +73,7 @@ public class ActionUtils {
 
     public void javaScriptClick(By locator) {
         wait.waitForClickability(locator);
-        js.executeScript("arguments[0].click();", locator);
+        js.executeScript("arguments[0].click();", find(locator));
         captureScreenshot(driver);
     }
 
@@ -85,13 +86,12 @@ public class ActionUtils {
     }
 
     public boolean elementShouldBeVisible(By locator) {
-        captureScreenshot(driver);
-        return find(locator).isDisplayed();
-
+        scrollElementIntoView(locator);
+        return wait.isVisible(locator);
     }
 
     public void scrollElementIntoView(By locator) {
-        wait.waitForClickability(locator);
+        wait.waitForVisibility(locator);
         WebElement element = find(locator);
         js.executeScript("arguments[0].scrollIntoView({block:'center'});", element);
         captureScreenshot(driver);
@@ -126,6 +126,16 @@ public class ActionUtils {
         StringBuilder builder = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
             builder.append(ALPHANUMERIC.charAt(random.nextInt(ALPHANUMERIC.length())));
+        }
+        return builder.toString();
+    }
+
+    public String generateRandomDigits(int length) {
+        final String DIGITS = "0123456789";
+        Random random = new SecureRandom();
+        StringBuilder builder = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            builder.append(DIGITS.charAt(random.nextInt(DIGITS.length())));
         }
         return builder.toString();
     }

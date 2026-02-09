@@ -4,10 +4,12 @@ import core.base.BasePage;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
+    private static final String INVALID_CREDENTIALS = "Invalid credentials";
     private final By username = By.name("username");
     private final By password = By.name("password");
     private final By loginBtn = By.cssSelector("button[type='submit']");
-    private final By search = By.cssSelector("a[class='oxd-main-menu-item']");
+    private final By userDropdownName = By.cssSelector("p.oxd-userdropdown-name");
+    private final By loginError = By.cssSelector("p.oxd-text.oxd-text--p.oxd-alert-content-text");
 
     @Override
     public boolean isPageLoaded() {
@@ -22,7 +24,23 @@ public class LoginPage extends BasePage {
     }
 
     public boolean assertSuccessLogin() {
-        return wait.isVisible(search);
+        return isLoggedIn();
+    }
+
+    public boolean isLoggedIn() {
+        return wait.isVisible(userDropdownName);
+    }
+
+    public String getLoginErrorMessage() {
+        if (wait.isVisible(loginError)) {
+            return driver.findElement(loginError).getText().trim();
+        }
+        return "";
+    }
+
+    public boolean isInvalidCredentialsErrorVisible() {
+        return wait.isVisible(loginError)
+                && INVALID_CREDENTIALS.equals(driver.findElement(loginError).getText().trim());
     }
 
 }

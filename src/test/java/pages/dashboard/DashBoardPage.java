@@ -4,7 +4,7 @@ import core.base.BasePage;
 import org.openqa.selenium.By;
 
 public class DashBoardPage extends BasePage {
-    private final By dashBoard_Heading = By.xpath("//h6[contains(normalize-space(), dashboard)]");
+    private final By dashBoard_Heading = By.xpath("//h6[contains(normalize-space(), 'Dashboard')]");
     private final By adminButton = By.xpath("//a[contains(normalize-space(),'Admin')]");
     private final By assignLeaveButton = By.xpath("//button[@title='Assign Leave']");
     private final By leaveListButton = By.xpath("//button[@title='Leave List']");

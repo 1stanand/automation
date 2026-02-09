@@ -1,6 +1,7 @@
 package core.base;
 
 import core.config.ConfigReader;
+import core.context.ContextManager;
 import core.driver.DriverFactory;
 import core.driver.DriverManager;
 import core.utils.JsonContext;
@@ -20,6 +21,7 @@ public class BaseTest {
     @AfterMethod
     public void tearDown() {
         JsonContext.clear();
+        ContextManager.cleanContext();
         DriverManager.quitDriver();
     }
 }
