@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="OrangeHRM Smoke Suite" parallel="classes" thread-count="2" verbose="1">
+    <test name="Smoke Tests">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <!-- Include all test classes here; TestNG will filter them by the group above -->
+            <class name="tests.LoginTests"/>
+            <class name="tests.dashboard.DashboardTests"/>
+        </classes>
+    </test>
+</suite>

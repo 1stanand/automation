@@ -11,14 +11,17 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         WebDriver driver = DriverFactory.createDriver();
         DriverManager.setDriver(driver);
         driver.get(ConfigReader.get("url"));
+        if (!ConfigReader.getConfigAsBoolean("headless")) {
+            driver.manage().window().maximize();
+        }
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         JsonContext.clear();
         ContextManager.cleanContext();

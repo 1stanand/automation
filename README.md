@@ -7,6 +7,7 @@ This project focuses on **clean architecture, separation of concerns, and long-t
 ---
 
 ## 🚀 Tech Stack
+
 - Java
 - Selenium WebDriver
 - Maven
@@ -16,6 +17,7 @@ This project focuses on **clean architecture, separation of concerns, and long-t
 ---
 
 ## ✨ Features
+
 - **User Management:** Create, and manage users through the admin panel.
 - **Dashboard Widgets:** Verify the visibility and functionality of dashboard widgets.
 - **Leave Management:** Navigate and verify leave management sections.
@@ -48,6 +50,7 @@ src
 ---
 
 ## 🧩 Key Design Principles
+
 - **Page Object Model:** Each page in the application has a corresponding page object.
 - **Page Navigation:** Page objects are responsible for navigation and return other page objects.
 - **Separation of Concerns:** Test logic is kept separate from page objects and utility classes.
@@ -58,7 +61,9 @@ src
 ---
 
 ## ⚙️ Configuration
+
 Application configuration is managed via `config.properties`, including:
+
 - Application URL
 - Timeouts
 - Screenshot settings
@@ -66,18 +71,22 @@ Application configuration is managed via `config.properties`, including:
 ---
 
 ## 🧪 Test Data Strategy
+
 - JSON files are used to define test data for different scenarios.
 - This approach ensures that tests are deterministic and repeatable.
 
 ---
 
 ## 📸 Screenshots
+
 - Screenshots are automatically captured for failed tests and key actions.
 - They are stored locally and excluded from version control.
 
 ---
 
 ## ▶️ Run Tests
+
+**Run Default Suite (Functional Modules):**
 
 ```bash
 mvn clean test
@@ -86,6 +95,7 @@ mvn clean test
 ---
 
 ## 🔮 Planned Enhancements
+
 - **Parallel Execution:** Implement parallel test execution to reduce run time.
 - **Reporting:** Integrate with a reporting tool like Allure or ExtentReports.
 - **CI/CD Integration:** Set up a continuous integration and deployment pipeline.
@@ -94,6 +104,7 @@ mvn clean test
 ---
 
 ## 👤 Author
+
 **Anand**  
 Senior Automation Test Engineer / SDET II
 
