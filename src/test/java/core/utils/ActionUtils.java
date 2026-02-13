@@ -1,22 +1,24 @@
 package core.utils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.security.SecureRandom;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import core.config.ConfigReader;
+import io.qameta.allure.Allure;
 
 public class ActionUtils {
     private final WebDriver driver;
@@ -30,26 +32,47 @@ public class ActionUtils {
     }
 
     public static void captureScreenshot(WebDriver driver) {
+        captureScreenshot(driver, "step");
+    }
+
+    public static void captureScreenshot(WebDriver driver, String screenshotLabel) {
         if (!ConfigReader.getConfigAsBoolean("screenshot")) {
             return;
         }
-        String testName = Reporter.getCurrentTestResult().getMethod().getMethodName();
+        if (driver == null) {
+            return;
+        }
+
+        String testName = resolveCurrentTestName();
+        String safeTestName = sanitize(testName);
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
         String hourMinute = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH_mm"));
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH_mm_ss_SSS"));
-        File screenshotDir = new File(
-                System.getProperty("user.dir") + "/screenshots/" + date + "/" + testName + "/" + hourMinute + "/");
-        String screenshotName = "step_" + time + ".png";
-        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File screenshot = new File(screenshotDir, screenshotName);
-        if (!screenshotDir.exists()) {
-            screenshotDir.mkdirs();
-        }
+        String safeLabel = sanitize(screenshotLabel == null ? "step" : screenshotLabel);
+        String screenshotName = safeLabel + "_" + time + "_" + Thread.currentThread().threadId() + ".png";
+        Path screenshotDir = Path.of(System.getProperty("user.dir"), "target", "screenshots", date, safeTestName,
+                hourMinute);
+
         try {
-            FileUtils.copyFile(src, screenshot);
-        } catch (IOException e) {
-            e.printStackTrace();
+            byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            Files.createDirectories(screenshotDir);
+            Files.write(screenshotDir.resolve(screenshotName), screenshotBytes);
+            Allure.addAttachment(screenshotName, "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
+        } catch (Exception e) {
+            System.err.println("Unable to capture screenshot: " + e.getMessage());
         }
+    }
+
+    private static String resolveCurrentTestName() {
+        ITestResult testResult = Reporter.getCurrentTestResult();
+        if (testResult != null && testResult.getMethod() != null) {
+            return testResult.getMethod().getMethodName();
+        }
+        return "unknown_test";
+    }
+
+    private static String sanitize(String value) {
+        return value.replaceAll("[^a-zA-Z0-9._-]", "_");
     }
 
     public WebElement find(By locator) {
