@@ -2,7 +2,7 @@
 <suite name="OrangeHRM Automation Suite" parallel="classes" thread-count="2" verbose="1">
     <test name="Login Tests">
         <classes>
-            <class name="tests.LoginTests"/>
+            <class name="tests.login.LoginTests"/>
         </classes>
     </test>
     <test name="Dashboard Tests">

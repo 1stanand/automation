@@ -22,21 +22,21 @@ public class DashboardTests extends BaseTest {
         Assert.assertTrue(loginPage.isLoggedIn(), "Expected user to be logged in before module tests.");
     }
 
-    @Test(groups = { "smoke" }, invocationCount = 2)
+    @Test(groups = { "regression" }, invocationCount = 2)
     public void dashboardButtonsShouldBeVisible() {
         DashboardPage dashboardPage = new DashboardPage();
         Assert.assertTrue(dashboardPage.areQuickLaunchButtonsVisible(),
                 "Not all Dashboard quick-launch buttons are visible.");
     }
 
-    @Test(groups = { "smoke" })
+    @Test(groups = { "regression" })
     public void verifyMyLeaveNavigation() {
         SidePanel sidePanel = new SidePanel();
         LeavePage leavePage = sidePanel.openLeave();
         Assert.assertTrue(leavePage.isPageLoaded(), "Failed to navigate to Leave page.");
     }
 
-    @Test(groups = { "smoke", "regression" })
+    @Test(groups = { "regression" })
     public void verifyAdminPageNavigation() {
         SidePanel sidePanel = new SidePanel();
         AdminPage adminPage = sidePanel.openAdmin();

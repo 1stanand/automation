@@ -19,6 +19,8 @@ logs/
 test-output/
 surefire-reports/
 failsafe-reports/
+allure-results/
+.allure
 
 # ======================
 # IntelliJ IDEA

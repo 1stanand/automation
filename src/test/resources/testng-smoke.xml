@@ -6,10 +6,8 @@
                 <include name="smoke"/>
             </run>
         </groups>
-        <classes>
-            <!-- Include all test classes here; TestNG will filter them by the group above -->
-            <class name="tests.LoginTests"/>
-            <class name="tests.dashboard.DashboardTests"/>
-        </classes>
+        <packages>
+            <package name="tests.*"/>
+        </packages>
     </test>
 </suite>

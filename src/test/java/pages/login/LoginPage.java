@@ -1,6 +1,8 @@
 package pages.login;
 
 import core.base.BasePage;
+import io.qameta.allure.Step;
+
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -16,6 +18,7 @@ public class LoginPage extends BasePage {
         return wait.isVisible(usernameInput);
     }
 
+    @Step("Login with username: {0} and password: {1}")
     public void login(String username, String password) {
         waitForPage();
         action.inputText(usernameInput, username);

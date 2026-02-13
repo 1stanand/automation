@@ -7,7 +7,7 @@
             </run>
         </groups>
         <classes>
-            <class name="tests.LoginTests"/>
+            <class name="tests.login.LoginTests"/>
             <class name="tests.dashboard.DashboardTests"/>
         </classes>
     </test>
