@@ -4,4 +4,4 @@ Hey I dont want this change in Git
 
 Hey I dont want this change in Git. I had pushed this, But Now I am correcting this
 
-Git Reset Was messy for pushed changes. SO Now lets see revert work. I am reverting this.
+Now I have corrected that
