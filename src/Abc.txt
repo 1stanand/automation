@@ -4,6 +4,4 @@ Hey I dont want this change in Git
 
 Hey I dont want this change in Git. I had pushed this, But Now I am correcting this
 
-Now I have corrected that. 
-
-I have made many changes now, This is Incorrect Change, I dont have time to fix it, Ohhhh Thats bad. But I pushed it too
+Now I have corrected that
